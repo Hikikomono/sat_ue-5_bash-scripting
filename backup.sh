@@ -25,9 +25,21 @@ nrFilesInArchieve () {
 				echo $(tar -tf ${destination_dir} | grep -v "/$" | wc -l)
 }
 
-user=$USER
-date_=$(date +"%Y-%m-%d_%H:%M:%S")
+#Check if USER dir exists
+read -p "Which Users home directory should be backed up?: " user
+if [ -z "$user" ]
+then
+	user=$USER
+	echo Empty input - backup default /home/${user}
+elif [ ! -d "/home/${user}/" ]
+then
+	echo Directory does not exist - backup default /home/${USER}
+	user=$USER
+else
+	echo Directory for user ${user} will be backed up ...
+fi
 
+date_=$(date +"%Y-%m-%d_%H:%M:%S")
 source_dir=~/scripts
 destination_dir=/tmp/scripts_${user}_${date_}.tar.gz
 
@@ -42,7 +54,7 @@ amt_files_after=$(nrFilesInArchieve)
 echo "Files in Folder to BackUp: ${amt_files_before}"
 echo "Files in BackUp folder (tar.gz): ${amt_files_after}"
 
-
+#Sanity Check regarding amt of files
 if ((amt_files_before==amt_files_after)) 
 then
 	echo Successfull Backup of: $source_dir

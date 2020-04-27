@@ -1,4 +1,4 @@
-Author: Roberto ENko
+Author: Roberto Enko
 Date: 27.04.2020
 
 Purpose of the Program:

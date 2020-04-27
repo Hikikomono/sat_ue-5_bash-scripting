@@ -70,9 +70,7 @@ do
 	tar -czf $destination_dir $source_dir 2> /dev/null
 	amt_files_after=$(nrFilesInArchieve)
 
-	echo "Files in Folder to BackUp: ${amt_files_before}"
-	echo "Files in BackUp folder (tar.gz): ${amt_files_after}"
-
+	#encrypt archieve
 	encryptFun
 
 	#Sanity Check regarding amt of files
@@ -93,6 +91,6 @@ do
 
 	echo "Backed-up: Users: ${user_count}  | Files: ${file_count}  | Dirs: ${directory_count}"
 	echo ""
-	read -p "Backup another /home/user/ directory? (y/n):" decision
+	read -p "Backup another home  directory? (y/n):" decision
 	echo	""￼
 done

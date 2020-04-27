@@ -25,8 +25,19 @@ nrFilesInArchieve () {
 
 #function to gen rnd pass & encrypt file
 encryptFun () {
-	pass=1337 #just as an example..
-	openssl enc -aes-256-cbc -pass pass:${pass} -p -in ${destination_dir} -out ${destination_dir}.dec -base64
+	#gen keypair
+	cd /tmp/
+	openssl genrsa -out private.key 1024
+	openssl rsa -in private.key -pubout -out public.key
+	#pass=1337 #just as an example..
+
+	#sym encryption w/ pub key (could have gen. a random string with openssl)
+	openssl enc -aes-256-cbc -pbkdf2 -salt -pass file:public.key -in ${destination_dir} -out ${destination_dir}.dec -base64
+	echo ".. File encrypted .."
+
+	#signing
+	openssl dgst -sha256 -sign private.key -out signature.txt ${destination_dir}.dec
+	echo ".. Signature created .."
 }
 
 file_count=0
@@ -62,6 +73,8 @@ do
 	echo "Files in Folder to BackUp: ${amt_files_before}"
 	echo "Files in BackUp folder (tar.gz): ${amt_files_after}"
 
+	encryptFun
+
 	#Sanity Check regarding amt of files
 	if ((amt_files_before == amt_files_after)) 
 	then
@@ -76,7 +89,8 @@ do
 	let file_count=$file_count+$(nrFiles)
 	let directory_count=$directory_count+$(nrDirectories)
 	
-	encryptFun
+	rm $destination_dir #aus "zeitmangel" so gelöst =/
+
 	echo "Backed-up: Users: ${user_count}  | Files: ${file_count}  | Dirs: ${directory_count}"
 	echo ""
 	read -p "Backup another /home/user/ directory? (y/n):" decision

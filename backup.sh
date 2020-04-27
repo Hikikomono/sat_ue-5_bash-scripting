@@ -8,12 +8,15 @@
 
 #function to count files in current directory
 nrFiles () {
-	echo $(ls | wc -l)	
+	cd ~/scripts
+	echo $(find -type f | wc -l)
+ #echo $(ls | wc -l)	#not recursively
 }
 
 #function to count amnt of directories in current directory
 nrDirectories () {
-	 echo $(ls -d | wc -l)
+	cd ~/scripts 
+	echo $(find -type d | wc -l)
 	#bug -> printing name of prev func (nrFiles) wtf? -> old vers.
 }
 
@@ -23,11 +26,16 @@ date_=$(date +"%Y-%m-%d_%H:%M:%S")
 source_dir=~/scripts
 destination_dir=/tmp/scripts_${user}_${date_}.tar.gz
 
-let amt_files_before=$(nrFiles)
+amt_files_before=$(nrFiles)
 
 tar -czf $destination_dir $source_dir 2> /dev/null
 
-let amt_files_after=$(nrFiles)
+
+amt_files_after=$(tar -tf ${destination_dir} | wc -l)
+
+
+echo "Files in Folder to BackUp: ${amt_files_before}"
+echo "Files in BackUp folder (tar.gz): ${amt_files_after}"
 
 
 if ((amt_files_before==amt_files_after)) 
@@ -36,4 +44,3 @@ then
 else 
 	echo An Error occured while performing the Backup
 fi
-

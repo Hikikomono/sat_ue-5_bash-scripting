@@ -91,6 +91,6 @@ do
 
 	echo "Backed-up: Users: ${user_count}  | Files: ${file_count}  | Dirs: ${directory_count}"
 	echo ""
-	read -p "Backup another home  directory? (y/n):" decision
+	read -p "Backup another home directory? (y/n):" decision
 	echo	""￼
 done

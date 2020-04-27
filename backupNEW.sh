@@ -26,7 +26,7 @@ nrFilesInArchieve () {
 #function to gen rnd pass & encrypt file
 encryptFun () {
 	pass=1337 #just as an example..
-	openssl enc -aes-256-cbc -pass pass:${pass} -p -in ${destination_dir} -out ${destination_dir}.dec -base64
+	openssl enc -aes-256-cbc -pass pass:${pass} -p -in ${destination_dir} -out ${destination_dir} -base64
 }
 
 file_count=0
@@ -76,9 +76,8 @@ do
 	let file_count=$file_count+$(nrFiles)
 	let directory_count=$directory_count+$(nrDirectories)
 	
-	encryptFun
+	#encryptFun
 	echo "Backed-up: Users: ${user_count}  | Files: ${file_count}  | Dirs: ${directory_count}"
 	echo ""
-	read -p "Backup another /home/user/ directory? (y/n):" decision
-	echo	""￼
+	read -p "Backup another /home/user/ directory? (y/n):" decision￼
 done

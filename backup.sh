@@ -25,6 +25,14 @@ nrFilesInArchieve () {
 				echo $(tar -tf ${destination_dir} | grep -v "/$" | wc -l)
 }
 
+file_count=0
+directory_count=0
+user_count=0
+decision='y'
+
+while [ $decision = 'y' ]
+do
+echo ""
 #Check if USER dir exists
 read -p "Which Users home directory should be backed up?: " user
 if [ -z "$user" ]
@@ -60,3 +68,12 @@ else
 	echo An Error occured while performing the Backup
 	echo Amount of Files in Backup and /home/${user} not euqal!
 fi
+
+#update variables
+let user_count++
+let file_count=$file_count+$(nrFiles)
+let directory_count=$directory_count+$(nrDirectories)
+
+echo "Backed-up: Users: ${user_count}  | Files: ${file_count}  | Dirs: ${directory_count}"
+read -p "Backup another /home/user/ directory? (y/n):" decision
+done

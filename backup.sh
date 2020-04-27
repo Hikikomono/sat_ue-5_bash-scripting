@@ -20,6 +20,11 @@ nrDirectories () {
 	#bug -> printing name of prev func (nrFiles) wtf? -> old vers.
 }
 
+#function to count amt of files in tar archieve
+nrFilesInArchieve () {
+				echo $(tar -tf ${destination_dir} | grep -v "/$" | wc -l)
+}
+
 user=$USER
 date_=$(date +"%Y-%m-%d_%H:%M:%S")
 
@@ -31,7 +36,7 @@ amt_files_before=$(nrFiles)
 tar -czf $destination_dir $source_dir 2> /dev/null
 
 
-amt_files_after=$(tar -tf ${destination_dir} | wc -l)
+amt_files_after=$(nrFilesInArchieve)
 
 
 echo "Files in Folder to BackUp: ${amt_files_before}"

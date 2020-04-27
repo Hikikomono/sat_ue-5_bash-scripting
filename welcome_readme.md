@@ -2,7 +2,7 @@ Author: Roberto Enko
 Date: 27.04.2020
 
 Purpose of the Program:
-The script prints the name of the current user, his/her bash-version and the current time the script is executed
+The script prints the name of the current user, his/her bash-version and the current date on which the script was executed.
 
 How is it used?
 Give the script execute rights using "chmod +x welcome"
